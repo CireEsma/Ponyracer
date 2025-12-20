@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
-
+import { describe, expect, test } from 'vitest';
 import { mount } from '@vue/test-utils';
-import App from '../App.vue';
+import App from '@/App.vue';
 
-describe('App', () => {
-  it('mounts renders properly', () => {
+describe('App.vue', () => {
+  test('renders a title', () => {
     const wrapper = mount(App);
-    expect(wrapper.text()).toContain('You did it!');
+
+    expect(wrapper.get('h1').text()).toBe('Ponyracer');
   });
 });

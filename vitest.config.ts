@@ -1,5 +1,4 @@
-import { fileURLToPath } from 'node:url';
-import { mergeConfig, defineConfig, configDefaults } from 'vitest/config';
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 import viteConfig from './vite.config';
 
 export default mergeConfig(
@@ -7,8 +6,26 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
-      exclude: [...configDefaults.exclude, 'e2e/**'],
-      root: fileURLToPath(new URL('./', import.meta.url))
+      pool: 'vmThreads',
+      exclude: [
+        ...configDefaults.exclude!,
+        'e2e/**',
+        'src/__tests__/router-mock.ts',
+        'src/__tests__/pinia.ts',
+        'src/views/__tests__/vitest-canvas.ts'
+      ],
+      clearMocks: true,
+      reporters: ['default', 'json'],
+      outputFile: 'results/vitest-results.json',
+      sequence: {
+        shuffle: true
+      },
+      coverage: {
+        provider: 'istanbul',
+        exclude: [...configDefaults.coverage.exclude!, 'src/main.ts', 'src/router.ts', 'src/i18n.ts', 'src/models', 'playwright.config.ts'],
+        reporter: ['json-summary', 'text', 'html'],
+        reportOnFailure: true
+      }
     }
   })
 );
