@@ -1,4 +1,5 @@
 # Ponyracer
+Pro pack VueJS by Ninja Squad
 
 ## Project Setup
 
